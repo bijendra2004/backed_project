@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+
+{% block title %}
+SnapTweet
+{% endblock %}
+
+{% block content %}
+
+<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+
+<h1 class="text-center mt-4">
+  <span id="typed-text"></span>
+</h1>
+
+<script>
+  var typed = new Typed('#typed-text', {
+    strings: ["Snap a thought,", "Post a vibe.", "Express freely."],
+    typeSpeed: 60,
+    backSpeed: 40,
+    loop: true
+  });
+</script>
+
+<a class="btn btn-primary mb-4" href="{% url 'tweet_create' %}">Create a tweet</a>
+
+<div class="container row gap-3">
+    {% for tweet in tweets %}
+    <div class="card" style="width: 18rem;">
+      <img src="{{tweet.photo.url}}" class="card-img-top" alt="...">
+      <div class="card-body">
+        <h5 class="card-title">{{tweet.user.username}}</h5>
+        <p class="card-text">{{tweet.text}}</p>
+        {% if tweet.user == user %}
+        <a href="{% url 'tweet_edit' tweet.id %}" class="btn btn-primary">Edit</a>
+        <a href="{% url 'tweet_delete' tweet.id %}" class="btn btn-danger">Delete</a>
+        {% endif %}
+      </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
+
